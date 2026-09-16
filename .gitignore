@@ -1,0 +1,38 @@
+# --- Environment / secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Python (backend) ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+
+# --- Node (frontend) ---
+node_modules/
+.next/
+out/
+dist/
+build/
+.turbo/
+
+# --- Docker ---
+*.pid
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Data (never commit real user data or raw video) ---
+*.mp4
+*.mov
+/data/raw/
