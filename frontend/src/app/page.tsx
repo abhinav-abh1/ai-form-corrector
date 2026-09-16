@@ -1,13 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-// This page intentionally does nothing feature-related yet. Its only job right now is to
-// prove the walking skeleton works: the browser can reach the backend, over the network
-// path Docker Compose sets up, and render what comes back. Real camera/pose-estimation
-// code replaces this in the next phase.
 export default function Home() {
   const [status, setStatus] = useState<string>("checking...");
+  const videoRef = useRef<HTMLVideoElement>(null);   // NEW
 
   useEffect(() => {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
@@ -17,10 +14,22 @@ export default function Home() {
       .catch(() => setStatus("could not reach backend"));
   }, []);
 
+  // NEW
+  const startCamera = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    if (videoRef.current) {
+      videoRef.current.srcObject = stream;
+    }
+  };
+
   return (
     <main style={{ fontFamily: "sans-serif", padding: "2rem" }}>
       <h1>AI Form Corrector</h1>
       <p>{status}</p>
+
+      {/* NEW */}
+      <button onClick={startCamera}>Start camera</button>
+      <video ref={videoRef} autoPlay playsInline style={{ width: 480, marginTop: "1rem" }} />
     </main>
   );
 }
